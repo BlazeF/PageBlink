@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Blinking Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .page {
+            width: 300px;
+            height: 300px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        .light {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            display: none;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Light Blinking Game</h1>
+    
+    <div class="game-container">
+        <div class="page" id="page1" onclick="checkLights('page1')"></div>
+        <div class="page" id="page2" onclick="checkLights('page2')"></div>
+        <div class="page" id="page3" onclick="checkLights('page3')"></div>
+        <div class="page" id="page4" onclick="checkLights('page4')"></div>
+    </div>
+
+    <div class="controls">
+        <button class="button" onclick="startGame()">Start</button>
+        <button class="button" onclick="stopGame()">Stop</button>
+        <h3>Score: <span id="score">0</span></h3>
+    </div>
+
+    <script>
+        let score = 0;
+        let interval;
+        let currentPage = '';
+        let lightsOnPage = 0;
+
+        // Start the game
+        function startGame() {
+            document.getElementById('score').innerText = score = 0; // Reset score
+
+            interval = setInterval(() => {
+                // Clear previous lights
+                clearLights();
+
+                // Pick a random page and random number of lights (1 to 5)
+                currentPage = 'page' + (Math.floor(Math.random() * 4) + 1);
+                lightsOnPage = Math.floor(Math.random() * 5) + 1; // Random lights between 1 and 5
+                blinkLights(currentPage, lightsOnPage);
+            }, 1000); // Faster speed, changes every 1 second
+        }
+
+        // Stop the game
+        function stopGame() {
+            clearInterval(interval);
+            clearLights();
+        }
+
+        // Function to make lights blink on the page
+        function blinkLights(pageId, lightCount) {
+            const page = document.getElementById(pageId);
+            for (let i = 0; i < lightCount; i++) {
+                const light = document.createElement('div');
+                light.className = 'light';
+                // Position lights randomly within the page
+                light.style.top = Math.random() * 270 + 'px'; // Adjust for new page size
+                light.style.left = Math.random() * 270 + 'px'; // Adjust for new page size
+                light.style.display = 'block';
+                page.appendChild(light);
+            }
+        }
+
+        // Clear all lights
+        function clearLights() {
+            document.querySelectorAll('.page').forEach(page => {
+                while (page.firstChild) {
+                    page.removeChild(page.firstChild); // Remove all lights
+                }
+            });
+        }
+
+        // Check if the player clicked the correct page with exactly 4 lights
+        function checkLights(pageId) {
+            if (pageId === currentPage && lightsOnPage === 4) {
+                score++;
+            }
+            document.getElementById('score').innerText = score;
+        }
+    </script>
+
+</body>
+</html>
