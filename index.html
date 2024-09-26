@@ -8,24 +8,31 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
         .game-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 20px;
+            grid-gap: 10px; /* Closer pages */
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 20px;
+            padding: 10px;
         }
         .page {
-            width: 300px;
-            height: 300px;
+            width: 40vw; /* Responsive width */
+            height: 40vw; /* Responsive height to make it square */
+            max-width: 300px; /* Cap the size on larger screens */
+            max-height: 300px; /* Cap the size on larger screens */
             background-color: #f0f0f0;
             border: 1px solid #ccc;
             position: relative;
         }
         .light {
-            width: 30px;
-            height: 30px;
+            width: 10vw; /* Responsive light size */
+            height: 10vw;
+            max-width: 30px; /* Max size for larger screens */
+            max-height: 30px;
             border-radius: 50%;
             background-color: red;
             position: absolute;
@@ -38,6 +45,10 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            margin: 5px;
+        }
+        h1, h3 {
+            margin: 10px;
         }
     </style>
 </head>
@@ -92,8 +103,8 @@
                 const light = document.createElement('div');
                 light.className = 'light';
                 // Position lights randomly within the page
-                light.style.top = Math.random() * 270 + 'px'; // Adjust for new page size
-                light.style.left = Math.random() * 270 + 'px'; // Adjust for new page size
+                light.style.top = Math.random() * 90 + '%'; // Adjust for responsiveness
+                light.style.left = Math.random() * 90 + '%'; // Adjust for responsiveness
                 light.style.display = 'block';
                 page.appendChild(light);
             }
